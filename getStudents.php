@@ -1,6 +1,13 @@
 <?php
     require_once('mysqlcredentials.php');
-    $query = "SELECT name, email, status FROM users";
+    if (empty($_GET['id'])) {
+        $fields = 'name, email, status';
+        $whereClause = '';
+    } else {
+        $fields = '*';
+        $whereClause = "WHERE id= {$_GET['id']}";
+    }
+    $query = "SELECT $fields FROM users $whereClause";
     $result = mysqli_query($conn, $query);
     $output = [
         'success' => false,
